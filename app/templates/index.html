@@ -1,0 +1,23 @@
+<html>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <p class="{{ category }}" style="color: red;">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <h2>Upload a photo</h2>
+    <form action = "./" method = "POST" 
+      enctype = "multipart/form-data">
+      <input type = "file" name = "file" />
+      <input type = "submit"/>
+    </form>
+    {% if result %}
+      <br>
+      <hr>
+      <img src="{{filepath}} " border="1">
+      The result is {{result}} . 
+    {% endif %}
+  </body>
+</html>

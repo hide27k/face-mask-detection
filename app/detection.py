@@ -95,8 +95,8 @@ def plot_landmarks(landmarks, image):
 # Constants
 MIN_DISTANCE = 200
 MASK_LABEL = {0: "Mask", 1:"No Mask", 2: 'Mask below Nose', 3: 'Mask under Chin'}
-mask_on_label = {0: (0, 255, 0), 1: (255, 0, 0), 2: (0, 0, 255), 3: (0, 0, 255)}
-dist_label = {0: (0, 255, 0), 1: (255 ,0 , 0)}
+MASK_ON_LABEL = {0: (0, 255, 0), 1: (255, 0, 0), 2: (255, 165, 0), 3: (255, 165, 0)}
+DIST_LABEL = {0: "", 1: "Too close"}
 
 # Config web app
 app = Flask(__name__)
@@ -141,6 +141,10 @@ def upload_file():
         converted_img = cv2.cvtColor(input_img, cv2.COLOR_BGR2RGB)
         faces, conf = mtcnn.detect(cv2.cvtColor(input_img, cv2.COLOR_BGR2RGB))
 
+        numMask = 0
+        numNonMask = 0
+        numNonDist = 0
+
         if len(faces) >= 1:
             label = [0 for i in range(len(faces))]
             for i in range(len(faces) - 1):
@@ -171,11 +175,21 @@ def upload_file():
                   if len(noses) >= 1:
                     mask_result = 2
                 
-                cv2.putText(new_img, MASK_LABEL[mask_result], (int(x), int(y) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, mask_on_label[mask_result], 2)
+                cv2.putText(new_img, MASK_LABEL[mask_result], (int(x), int(y) - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, MASK_ON_LABEL[mask_result], 2)
                 d = label[i]
                 if mask_result == 0:
                   d = 0
-                cv2.rectangle(new_img, (int(x), int(y)), (int(w), int(h)), dist_label[d], 1)
+                cv2.rectangle(new_img, (int(x), int(y)), (int(w), int(h)), MASK_ON_LABEL[mask_result], 1)
+                print(int(x), int(y), int(h), int(w))
+                cv2.putText(new_img, DIST_LABEL[d], (int(x), int(h) + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, MASK_ON_LABEL[mask_result], 2)
+
+                if mask_result == 1:
+                  numMask += 1
+                else:
+                  numNonMask += 1
+
+                if d == 1:
+                  numNonDist += 1
 
             processedImg = Image.fromarray(new_img)
             processedImg.save(filename + "_processed.png")
@@ -185,7 +199,7 @@ def upload_file():
 
         # Clean-up
         os.remove(filepath)
-        return render_template("index.html", filepath=filename + "_processed.png", result=len(faces))
+        return render_template("index.html", filepath=filename + "_processed.png", result=len(faces), mask=numMask, nonmask=numNonMask, nondist=numNonDist)
 
 if __name__ == "__main__":
     app.run(debug=True)

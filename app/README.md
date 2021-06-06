@@ -1,4 +1,4 @@
-# Face Mask Detection App
+# Face Mask Detector
 
 # How to run it in the local environment
 
@@ -9,7 +9,7 @@ $  virtualenv -p python3 venv v
 $ source venv/bin/activate
 ```
 
-Install all dependencies with `pip` (or `pip3`).
+Install all dependencies by `pip`.
 
 ```sh
 $ pip install -r requirements.txt

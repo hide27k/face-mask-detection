@@ -5,7 +5,7 @@
 Set-up virtual environment
 
 ```sh
-$  virtualenv -p python3 venv v
+$ virtualenv -p python3 venv
 $ source venv/bin/activate
 ```
 

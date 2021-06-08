@@ -299,7 +299,12 @@
                         <br><br>
                         <h6>ResNet vs VGG (VGG is more accurate but ResNet is faster)</h6>
                         <p style="text-align: justify;">
-                            Though we settled with VGG, ResNet was not strictly worse than VGG. ResNet still had 99.5% accuracy, which is still amazing. Additionally, ResNet was faster than VGG.
+                            Though we settled with VGG, ResNet was not strictly worse than VGG. ResNet still had 99.5% accuracy, which is still amazing. Additionally, ResNet was faster than VGG. According to the result photos below, VGG can detect face masks more accurately than ResNet especially in crowded places, and both models can sometimes find the improper way of wearing masks without using Haar Cascade nose detection.
+                        </p>
+                        <br><br>
+                        <h6>Special case</h6>
+                        <p style="text-align: justify;">
+                            For a mask that makes a person look like the person is not wearing a mask (look at 4th photo), we noticed that ResNet classifies the person as not wearing a mask. VGG was better than ResNet because it successfully classified the person as wearing a mask. However, the Haar Cascade Classifier somewhat failed and indicated that the mask was below the nose.  Thus, as mentioned before, we would need to find a good middle point of mixing Haar Cascade Classifier and MTCNN and making a smarter model by training with more datasets.
                         </p>
                     </div> 
                 </div>

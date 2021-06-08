@@ -123,7 +123,7 @@
                     <div class="col-lg-7">
                         <div class="header-hero-content">
                             <h1 class="hero-title wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s"><b>Detect <span>Face Masks</span><br>In Photos Using<br>Computer Vision</b></h1>
-                            <p class="text wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.5s">
+                            <p class="text wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.5s" style="text-align: justify;">
                                 It has been more than a year since the WHO declared a pandemic on March 11, 2020. According to the WHO, there have been more than 170 million confirmed cases of COVID-19 globally, including 3.69 million deaths. The importance of wearing a face mask in everyday life is emphasized since COVID-19 virus spreads through respiratory droplets. According to the scientific journal the Lancet, the effect of reducing the risk of infection is about 85 percent if the mask is properly worn. In relation to that, we were curious whether we can build a model that detects people in images wearing face masks or not? If people in the image are wearing a face mask, can the model detect if the mask is properly worn?                                We used <a href="https://www.kaggle.com/ashishjangra27/face-mask-12k-images-dataset">Face Mask 12k Kaggle Dataset</a> to get photos of people with face masks and without face masks.
 
                             </p>
@@ -149,7 +149,9 @@
                     <div class="about-title text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
                         <h1>Approach</h1>
                         <br>
-                        Our model detects face regions from a photo, crop the face image and classify if the face wears a mask or not. Then, the model detects if people in the image are wearing a mask properly by detecting nose position. In order to successfully perform this process, three steps are required.
+                        <p style="text-align: justify;">
+                            Our model detects face regions from a photo, crop the face image and classify if the face wears a mask or not. Then, the model detects if people in the image are wearing a mask properly by detecting nose position. In order to successfully perform this process, three steps are required.
+                        </p>
                         <br><br>
                         <img src="img/flowchart.png" width="70%"/>
                         <br><br>
@@ -159,7 +161,7 @@
                                     <ol style="text-align: left; margin-right: 20px">
                                         <li>
                                             <b>First Phase: Face detection</b>
-                                            <p>
+                                            <p style="text-align: justify;">
                                                 The MTCNN face detection model of facenet-pytorch is used for detecting the face regions in the image.
 
                                                 <br>
@@ -173,7 +175,7 @@
                                     <ol style="text-align: left; margin-right: 20px">
                                         <li>
                                             <b>Second Phase: Face mask detection</b>
-                                            <p>
+                                            <p >style="text-align: justify;"
                                                 For the face mask detection, VGG19 is used. VGG19 can classify if people wear the mask pretty accurately so far. 
                                                 <br>
                                                 First, we built two ResNet models to see which model performs better in detecting face masks. One model used an untrained model, and the other model used a pretrained model (transfer learning). The untrained model also used a smaller dataset than the pretrained model. The pretrained ResNet34 model showed higher accuracy (99.6%) than the untrained ResNet50 model (69%), so we decided to use the pretrained ResNet model for face mask detection. However, when we conduct transfer learnings with VGG16 and VGG19, we got interesting results. Even though the VGG16 overfitted, the VGG19 returned a slightly higher test accuracy than the ResNet34 model. The VGG19 model even had an 100% accuracy, but we need to keep in mind that the accuracy could be different if we use other datasets (see “Experiments & Results” section for more detail).
@@ -186,7 +188,7 @@
                                     <ol style="text-align: left; margin-right: 20px">
                                         <li>
                                             <b>Final Phase: Face mask properly worn</b>
-                                            <p>
+                                            <p style="text-align: justify;">
                                                 To wear a face mask properly, the nose and the mouse should be completely covered. Thus, the Haar Cascade Classifier is used for detecting if the person in the image is wearing the mask properly by detecting the nose and the mouth of the person. As mentioned before, the Haar Cascade Classifier has a problem when the person is not facing front. Thus, the different model should be used in the future for the cases when the mask is not properly worn, such as wearing a mask below the nose or wearing it under the chin and putting it on the neck in higher accuracy.
                                                 <br><br>
                                                 This
@@ -223,14 +225,14 @@
                                             <br><br>
                                             <h3 style="text-align: center;">a) Face detection: Haar Cascade vs. MTCNN</h3>
                                             <img src="img/ppl.png" class="center" width="80%"/>
-                                            <p class="text">
+                                            <p class="text" style="text-align: justify;">
                                                 By comparing two images after applying the face detection model, we were able to see which model performed better. While the Haar Cascade model detected only two faces out of many people in the image, the MTCNN model detected almost everyone in the image. The MTCNN model even detected the face of a person with her head down.
                                             </p>
                                             <br><br>
 
                                             <h3 style="text-align: center;">b) Face mask detection: Pretrained ResNet vs. Untrained ResNet</h3>
                                             <img src="img/resnet.png" class="center" width="80%"/>
-                                            <p class="text">
+                                            <p class="text" style="text-align: justify;">
                                                 The untrained ResNet model and the pretrained ResNet model showed a distinct difference in train loss and test accuracy. Based on the graphs, the train loss of the untrained model was much higher than the pretrained model, and the test accuracy of the untrained model was around 67%, much lower than the test accuracy, 99.7%, of the pretrained model.
                                             </p>
                                             <br><br>
@@ -260,7 +262,7 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <p class="text">
+                                            <p class="text" style="text-align: justify;">
                                                 We tested four models for face mask detection, ResNet-18, ResNet-34, VGG16, and VGG19, to find the model that performs the best. All the models performed over 99% accuracy, but the VGG19 had the highest accuracy of 100%. From the VGG16’s train loss graph, we can see that train loss is lower than validation accuracy starting epoch 6. From this we can conclude that the VGG16 is overfitting. This can be fixed with more dataset and more images; however, that may cause the accuracy of the model to fluctuate from what it is now. For VGG19, it is currently at 100% accuracy, but it is only for the limited datasets that we have picked. When we test it on other datasets, the accuracy can change. Nonetheless, based on these results, we can see that the VGG19 has the best performance in face mask detection.
                                             </p>
                                         </div> 
@@ -281,22 +283,22 @@
                     <div class="section-title wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
                         <h4 class="title">Discussion</h4>
                         <br>
-                        <p class="text">
+                        <p class="text" style="text-align: justify;">
                             Due to the pandemic situation, it is impossible to enter public facilities without wearing a face mask. It is not efficient to check people one by one to see if they are wearing a mask or not. Thus, the face mask detection model can be developed into a program that automatically determines if the person is properly wearing a mask or not by using a camera.
                         </p>
                         <br><br>
                         <h6>Changing from Haar cascade to MTCNN</h6>
-                        <p>
+                        <p style="text-align: justify;">
                             Like we saw from earlier, changing from Haar Cascade Classifier to MTCNN was a game changer. It detected way more people and the people in the image did not need to be facing front. However, we are currently using the Haar Cascade Classifier to tell whether people are properly wearing the mask or not. This is because MTCNN is too accurate and can tell people’s noses and mouths even under the mask! As a result, it classified a person properly wearing a mask as “not properly wearing a mask”. Thus, our future work of this project consists of finding a good middle point of mixing Haar Cascade Classifier and MTCNN and making a smarter model by training with more datasets.
                         </p>
                         <br><br>
                         <h6>Pre Trained vs Untrained</h6>
-                        <p>
+                        <p style="text-align: justify;">
                             The difference between an untrained model and a pretrained model was immense. The train loss of an untrained model was above 1, but the train loss of a pretrained model was below 1. The accuracy of an untrained model peaked at 67%, but the accuracy of a pretrained model was averaging 99%. Additionally, the pretrained model seemed more stable than the untrained model. For the pretrained model, train loss kept decreasing as epoch increased unlike untrained model’s fluctuating train loss. Same goes for accuracy; The pretrained model had a steady 99%, but the untrained model often fluctuated between 67% and 33%.
                         </p>
                         <br><br>
                         <h6>ResNet vs VGG (VGG is more accurate but ResNet is faster)</h6>
-                        <p>
+                        <p style="text-align: justify;">
                             Though we settled with VGG, ResNet was not strictly worse than VGG. ResNet still had 99.5% accuracy, which is still amazing. Additionally, ResNet was faster than VGG.
                         </p>
                     </div> 
